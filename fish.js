@@ -73,9 +73,15 @@ function fish() {
 		bottomFace = this.makeBottom();
 		console.log(topFace);
 		var fishGeo = new THREE.Geometry();
+
 		fishGeo.merge(topFace, topFace.matrix);
 		fishGeo.merge(bottomFace, bottomFace.matrix)
-		fishBody = new THREE.Mesh( fishGeo, material );
+
+		//re-center my fishy boi
+		fishGeo.center()
+
+		fishBody = new THREE.Mesh( fishGeo, material );		
+
 		scene.add(fishBody);
 
 		direction = new THREE.Vector3(Math.random(), Math.random(), 0);
@@ -109,7 +115,7 @@ function fish() {
 		var pos = new THREE.Vector3(fishBody.position.x + 5, fishBody.position.y + 5, 0);
 		if (Math.abs(pos.x) > 200) {
 			console.log("x limit");
-			let randX = Math.random() * 0.4,
+			let randX = Math.random() * -0.4,
 				randY = Math.random() * 3;
 			randX = [-randX, randX][Math.floor(Math.random()) * 2];
 			randY = [-randY, randY][Math.floor(Math.random()) * 2];
@@ -120,10 +126,10 @@ function fish() {
 			//direction.y = direction.y + randY;
 
 		}
-		if (Math.abs(pos.y) > 200) {
+		else if (Math.abs(pos.y) > 200) {
 			console.log("y limit");
 			let randX = Math.random() * 3,
-				randY = Math.random() * 0.4;
+				randY = Math.random() * -0.4;
 			randX = [-randX, randX][Math.floor(Math.random()) * 2];
 			randY = [-randY, randY][Math.floor(Math.random()) * 2];
 			console.log(randX,randY);
@@ -132,18 +138,21 @@ function fish() {
 			direction.y = -direction.y + randY;
 		}
 
+		//have fish look in direction of movement
+		//pls help
+		fishBody.lookAt(direction)
+
 	}
 
 }
 
 
 
-fish = new fish();
-
+myFish = new fish();
 
 render = () => {
 	requestAnimationFrame( render );
-	fish.move();
+	myFish.move();
 	renderer.render (scene, camera);
 }
 render();
