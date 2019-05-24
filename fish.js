@@ -140,7 +140,7 @@ function fish() {
 
 		//have fish look in direction of movement
 		//pls help
-		fishBody.lookAt(direction)
+		// fishBody.lookAt( new THREE.Vector3( direction.x * 100, direction.y * 100, 0 ) )
 
 	}
 
